@@ -1,37 +1,25 @@
 package projet;
+
 import java.net.* ;
 import java.io.* ;
-/**
- * 
- * <b>TD M3102 Java : Exercice 07</b><br/>
- * 
- * Écrire un programme Java dans lequel :
- * Un socket serveur écoute sur le port « 2015 » et attend les demandes de connexions en provenance de clients (telnet).
- * 
- * Pour chaque connexion acceptée un thread client est démarré ; le socket client généré par le socket serveur (accept()) est associé à ce thread.
- * Des flux d'entrées et sorties doivent être associés au socket afin d'échanger des messages avec l'utilisateur :
- * - Le thread donne le nom du serveur et demande celui du client
- * - Il attend  la réponse et salue le client par son nom
- * - Le thread répète tout ce qui est dit par le client jusqu'à ce que le mot clé « bye » soit envoyé ; la communication est alors coupée.
-  *	@author N. Menard
- *	@version 20151030-c
- */
+import java.util.ArrayList;
 
 /**
  * Classe principale qui joue le rôle de connecteur. Le thread attend
  * les demandes de connexions, pour chaque demande un thread Client_06a est créé
- * 
+ *
  *  @author N. Menard
  *	@version 20161102-d
- * 
+ *
  */
 class Exo_06a implements Runnable {
-	
-    /**
+
+	/**
 	 * le nom du serveur 
 	 */
 	static String nomServeur="ServeurTCP";
-	
+
+	public static ArrayList<Client_06a> clients = new ArrayList<Client_06a>();
 	/**
 	 * Initialisation du thread connecteur
 	 * principal
@@ -48,27 +36,32 @@ class Exo_06a implements Runnable {
 	 */
 	@Override
 	public void run() {
-		
+
 		ServerSocket srvs = null;
 
 		try {
-		    srvs = new ServerSocket(2042);
-		    
+			srvs = new ServerSocket(2042);
+
 			while(true){
-				System.out.println("En attente de connection");		
-				Thread chargeClient=new Thread(new Client_06a(srvs.accept()));
-															//la methode accepte la connexion et renvoie 
-														   // le socket apres acceptation de la connexion
+				System.out.println("En attente de connection");
+				new Thread();
+
+				clients.add(new Client_06a(srvs.accept()));
+
+				Thread t = new Thread(clients.get(clients.size()-1));
+				//la methode accepte la connexion et renvoie
+				// le socket apres acceptation de la connexion
 				System.out.println("Connection accepted");
-				chargeClient.start();
+				t.start();
+
 			}
 		} catch (IOException e) {
 			System.err.println("Accept failed.");
 			System.exit(1);
-		} 
+		}
 
 		try {
-		    srvs.close();
+			srvs.close();
 		} catch (IOException e){}
 	}//fin du run
 }
