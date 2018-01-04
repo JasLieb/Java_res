@@ -37,7 +37,7 @@ public class Message {
         int size = Serveur.clients.size();
         for(int i= 0; i< size; i++){
             if(!Serveur.clients.get(i).getNom().equals(nomFrom)){
-                Serveur.clients.get(i).send(nomFrom, contenu);
+                Serveur.clients.get(i).send(this);
             }
         }
     }

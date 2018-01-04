@@ -141,13 +141,12 @@ public class ClientThread implements Runnable {
 
     /**
      * Envoi d'un message (de connexion, de deconnexion, ou autre) a tous les clients
-     * @param nomFrom nom du client d'ou le message provient
-     * @param msg message a envoyer aux autres clients
+     * @param msg Objet Message contenant le nom du client d'ou le message provient et son contenu
      */
 
-	public void send(String nomFrom, String msg){
+	public void send(Message msg){
 		try {
-			fluxOut.write("\n"+nomFrom+" : "+msg);
+			fluxOut.write("\n"+msg.getNomFrom()+" : "+msg.getContenu());
 			fluxOut.newLine();
 			fluxOut.flush();
 			fluxOut.write("vous : ");fluxOut.flush();
