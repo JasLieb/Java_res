@@ -53,11 +53,20 @@ public class Message {
 
     /**
      * Getter du message
-     * @return message
+     * @return message contenu
      */
 
     public String getContenu(){
         return contenu;
+    }
+    
+    /**
+     * Setter du nomFrom
+     * @param nom nom du client connecté 
+     */
+    
+    public void setNomFrom(String nom){
+    	this.nomFrom = nom;
     }
 
     /**

@@ -94,11 +94,12 @@ public class ClientThread implements Runnable {
 			fluxOut.write("Bienvenue "+nom);
 			fluxOut.newLine();fluxOut.flush();
 
-			message = new Message(nom,nom+" est connecté.");
+			message = new Message("System",nom+" est connecté.");
 			System.out.println(nom+" est connecté.");
 			message.sendToAll();
+			message.setNomFrom(nom);
 
-		} catch (IOException e){}
+		} catch (IOException e){e.printStackTrace();}
 
 
 		while(!message.getContenu().equals("bye")){
@@ -108,14 +109,15 @@ public class ClientThread implements Runnable {
 				System.out.println(message.getNomFrom()+" : "+message.getContenu());
 				message.sendToAll();
 
-			} catch(IOException e){}
+			} catch(IOException e){ e.printStackTrace();}
 		}
 
 		System.out.println(nom+" s'est déconnecté.");
+		message.setNomFrom("System");
 		message.setContenu(nom+" s'est déconnecté.");
 		message.sendToAll();
 
-		deconnection();
+		deconnexion();
 
 	}
 
@@ -128,7 +130,7 @@ public class ClientThread implements Runnable {
      *
      */
 
-	public void deconnection(){
+	public void deconnexion(){
 		//fermeture des flux et du socket
 		try {
 			Thread.sleep(1000);
